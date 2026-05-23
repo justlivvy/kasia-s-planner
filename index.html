@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kasia's World - Daily Organiser</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="brand">
+          <div class="brand-flower" aria-hidden="true">&#10047;</div>
+          <div>
+            <h1>Kasia's World</h1>
+            <p>Plan · Organize · Grow</p>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="Sections">
+          <button class="nav-tab active" data-view="dashboard" aria-label="Dashboard">
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-tab" data-view="tasks" aria-label="Tasks">
+            <span class="nav-icon">✓</span>
+            <span>Tasks</span>
+          </button>
+          <button class="nav-tab" data-view="calendar" aria-label="Calendar">
+            <span class="nav-icon">□</span>
+            <span>Calendar</span>
+          </button>
+          <button class="nav-tab" data-view="journal" aria-label="Journal">
+            <span class="nav-icon">▣</span>
+            <span>Journal</span>
+          </button>
+          <button class="nav-tab" data-view="chores" aria-label="Chores">
+            <span class="nav-icon">⌁</span>
+            <span>Chores</span>
+          </button>
+        </nav>
+
+        <article class="focus-mode">
+          <div class="leaf" aria-hidden="true"></div>
+          <strong>Focus Mode</strong>
+          <span>Start a 25 min session</span>
+          <button type="button">▶ Start Timer</button>
+        </article>
+
+        <div class="mode-toggle" aria-label="Light mode">
+          <span>☼</span>
+          <p>Light Mode</p>
+          <label>
+            <input type="checkbox" aria-label="Light mode toggle">
+            <span></span>
+          </label>
+          <span>☾</span>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <section class="topbar">
+          <div>
+            <h2 id="viewTitle">Good morning, [Name]! <span>&#10047;</span></h2>
+            <p id="todayLabel">Let's make today amazing!</p>
+          </div>
+          <div class="top-actions">
+            <label class="search-box" aria-label="Search">
+              <span>⌕</span>
+              <input type="search" placeholder="Search...">
+            </label>
+            <button class="round-button" type="button" aria-label="Notifications">♢</button>
+            <button class="avatar" type="button" aria-label="Profile">
+              <span>☺</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="view active" id="dashboard">
+          <div class="stats-grid">
+            <article class="stat-card purple">
+              <div class="stat-icon">☷</div>
+              <div>
+                <strong id="taskTotal">0</strong>
+                <span>Tasks Today</span>
+                <small><span id="doneCount">0</span> completed</small>
+              </div>
+            </article>
+            <article class="stat-card pink">
+              <div class="stat-icon">□</div>
+              <div>
+                <strong>2</strong>
+                <span>Events Today</span>
+                <small>1 upcoming</small>
+              </div>
+            </article>
+            <article class="stat-card orange">
+              <div class="stat-icon">⌁</div>
+              <div>
+                <strong id="choreTotal">0</strong>
+                <span>Chores Due</span>
+                <small><span id="choreDoneCount">0</span> completed</small>
+              </div>
+            </article>
+            <article class="stat-card green">
+              <div class="stat-icon">♧</div>
+              <div>
+                <strong id="streakCount">0</strong>
+                <span>Day Streak</span>
+                <small>Keep it up!</small>
+              </div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel task-panel">
+              <div class="panel-heading">
+                <h3>Today's Tasks</h3>
+                <button type="button" class="text-button" data-view-link="tasks">View all</button>
+              </div>
+              <div class="item-list dashboard-list" id="todayTasks"></div>
+              <form class="inline-add" id="quickTaskForm">
+                <input id="quickTaskInput" type="text" placeholder="+ Add new task" autocomplete="off">
+                <button type="submit" aria-label="Add task">+</button>
+              </form>
+            </article>
+
+            <article class="panel event-panel">
+              <div class="panel-heading">
+                <h3>Upcoming Events</h3>
+                <button type="button" class="text-button" data-view-link="calendar">View calendar</button>
+              </div>
+              <div class="event-list">
+                <div class="event-card lavender">
+                  <time><span>May</span><strong>24</strong></time>
+                  <div>
+                    <strong>Doctor Appointment</strong>
+                    <span>● 10:00 AM - 11:00 AM</span>
+                  </div>
+                </div>
+                <div class="event-card rose">
+                  <time><span>May</span><strong>24</strong></time>
+                  <div>
+                    <strong>Study Group</strong>
+                    <span>● 3:00 PM - 4:30 PM</span>
+                  </div>
+                </div>
+                <div class="event-card peach">
+                  <time><span>May</span><strong>25</strong></time>
+                  <div>
+                    <strong>Mom's Birthday</strong>
+                    <span>● All Day</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <aside class="right-rail">
+              <article class="panel compact-calendar-panel">
+                <div class="calendar-controls">
+                  <button class="icon-button" id="prevMonth" aria-label="Previous month">‹</button>
+                  <strong id="monthLabel"></strong>
+                  <button class="icon-button" id="nextMonth" aria-label="Next month">›</button>
+                </div>
+                <div class="mini-calendar" id="miniCalendar"></div>
+              </article>
+
+              <article class="panel schedule-panel">
+                <h3>Today's Schedule</h3>
+                <ul class="schedule-list">
+                  <li><span class="dot purple-dot"></span><time>10:00 AM</time><strong>Doctor Appointment</strong></li>
+                  <li><span class="dot pink-dot"></span><time>3:00 PM</time><strong>Study Group</strong></li>
+                  <li><span class="dot green-dot"></span><time>7:00 PM</time><strong>Journal Time</strong></li>
+                </ul>
+              </article>
+
+              <article class="panel quick-note">
+                <h3>Quick Note</h3>
+                <textarea id="dailyReflection" rows="5" placeholder="Write something..."></textarea>
+                <div class="mood-picker" id="moodPicker" aria-label="Mood tracker">
+                  <button data-mood="calm">Calm</button>
+                  <button data-mood="happy">Happy</button>
+                  <button data-mood="busy">Busy</button>
+                  <button data-mood="tired">Tired</button>
+                </div>
+              </article>
+            </aside>
+
+            <article class="panel journal-preview">
+              <div class="panel-heading">
+                <h3>Journal Preview</h3>
+                <button type="button" class="text-button" data-view-link="journal">View all</button>
+              </div>
+              <div class="journal-art" aria-hidden="true">
+                <div class="vase"></div>
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div id="journalPreview"></div>
+            </article>
+
+            <article class="panel chores-preview">
+              <div class="panel-heading">
+                <h3>Chores</h3>
+                <button type="button" class="text-button" data-view-link="chores">View all</button>
+              </div>
+              <div class="item-list small-list" id="dueChores"></div>
+            </article>
+
+            <article class="panel habits-panel">
+              <div class="panel-heading">
+                <h3>Habit Tracker</h3>
+                <button type="button" class="text-button">View all</button>
+              </div>
+              <div class="habit-list" id="habitList"></div>
+            </article>
+          </div>
+
+          <div class="quote-strip">
+            <span aria-hidden="true">&#10048;</span>
+            <p>"Small progress is still progress. You're doing great!"</p>
+            <span aria-hidden="true">♡</span>
+          </div>
+        </section>
+
+        <section class="view" id="tasks">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Daily, weekly, monthly</p>
+              <h3>Task manager</h3>
+            </div>
+          </div>
+          <form class="composer" id="taskForm">
+            <input id="taskTitle" type="text" placeholder="Task name" required>
+            <select id="taskCadence" aria-label="Task cadence">
+              <option value="Daily">Daily</option>
+              <option value="Weekly">Weekly</option>
+              <option value="Monthly">Monthly</option>
+            </select>
+            <select id="taskPriority" aria-label="Task priority">
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+            <input id="taskDate" type="date" aria-label="Task date">
+            <button type="submit">Add task</button>
+          </form>
+          <div class="columns" id="taskColumns"></div>
+        </section>
+
+        <section class="view" id="calendar">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Month view</p>
+              <h3>Calendar</h3>
+            </div>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </section>
+
+        <section class="view" id="journal">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Private notes</p>
+              <h3>Journal</h3>
+            </div>
+          </div>
+          <form class="journal-form" id="journalForm">
+            <input id="journalTitle" type="text" placeholder="Entry title" required>
+            <textarea id="journalBody" rows="7" placeholder="How was your day?" required></textarea>
+            <button type="submit">Save entry</button>
+          </form>
+          <div class="journal-list" id="journalList"></div>
+        </section>
+
+        <section class="view" id="chores">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Repeat routines</p>
+              <h3>Chores</h3>
+            </div>
+          </div>
+          <form class="composer chore-composer" id="choreForm">
+            <input id="choreTitle" type="text" placeholder="Chore name" required>
+            <select id="choreRepeat" aria-label="Chore repeat schedule">
+              <option value="Every day">Every day</option>
+              <option value="Every Tuesday">Every Tuesday</option>
+              <option value="Every Thursday">Every Thursday</option>
+              <option value="Every Friday">Every Friday</option>
+              <option value="Weekly">Weekly</option>
+            </select>
+            <input id="choreOwner" type="text" placeholder="Who is doing it?">
+            <button type="submit">Add chore</button>
+          </form>
+          <div class="chore-list" id="choreList"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="emptyTemplate">
+      <div class="empty-state">
+        <p>Nothing here yet.</p>
+      </div>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
